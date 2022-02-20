@@ -1,53 +1,26 @@
 <template>
   <div class="game-difficulty-wrapper">
     <label
-      v-for="item in gameDifficultySetting"
-      :key="item.difficulty"
-      class="game-difficulty-radio"
-      :class="
-        gameDifficulty === item.difficulty
-          ? 'game-difficulty-radio__checked'
-          : ''
-      "
+      v-for="card in CARD_SHIRT_SETTING"
+      :key="card.id"
+      class="game-cards-view"
+      :class="CARD_SHIRT.id === card.id ? 'game-cards-view__checked' : ''"
     >
-      <input type="radio" :value="item.difficulty" v-model="gameDifficulty" />
-      <p>{{ item.name }}</p>
-      <img
-        :src="require(`@/assets/static/image/${item.img}`)"
-        alt="easy game image"
-      />
-      <p>(поле {{ item.areaSize }} &times; {{ item.areaSize }})</p>
+      <input type="radio" @click="selectCardShirt(card)" :value="card.id"/>
+      <img :src="require(`@/assets/static/image/cards/${card.img}`)" />
     </label>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
-  name: "GameDifficultySetter",
-  data() {
-    return {
-      gameDifficultySetting: [
-        {
-          name: "Легко",
-          difficulty: "easy",
-          areaSize: 2,
-          img: "easy.webp",
-        },
-        {
-          name: "Нормально",
-          difficulty: "normal",
-          areaSize: 4,
-          img: "normal.webp",
-        },
-        {
-          name: "Сложно",
-          difficulty: "hard",
-          areaSize: 6,
-          img: "hard.webp",
-        },
-      ],
-      gameDifficulty: "",
-    };
+  name: "GameCardsSetter",
+  computed: {
+    ...mapGetters(["CARD_SHIRT_SETTING", "CARD_SHIRT"]),
+  },
+  methods: {
+    ...mapActions(["selectCardShirt"]),
   },
 };
 </script>
